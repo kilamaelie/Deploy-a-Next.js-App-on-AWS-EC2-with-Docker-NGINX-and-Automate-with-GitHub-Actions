@@ -1,0 +1,16 @@
+services:
+  website:
+    container_name: website
+    image: '${NEXT_APP_WEBSITE_IMAGE}'
+    env_file: .env
+    ports:
+      - '3000:3000'
+
+  nginx:
+    container_name: nginx
+    image: '${NEXT_APP_NGINX_IMAGE}'
+    ports:
+      - '80:80'
+    depends_on:
+      - website
+    restart: always

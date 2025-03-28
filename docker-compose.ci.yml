@@ -1,0 +1,27 @@
+services:
+  website:
+    container_name: website
+    build:
+      context: ./website
+      dockerfile: Dockerfile
+      cache_from:
+        - '${NEXT_APP_WEBSITE_IMAGE}'
+    image: '${NEXT_APP_WEBSITE_IMAGE}'
+    env_file:
+      - ./.env
+    ports:
+      - '3000:3000'
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+      cache_from:
+        - '${NEXT_APP_NGINX_IMAGE}'
+    image: '${NEXT_APP_NGINX_IMAGE}'
+    ports:
+      - '80:80'
+    restart: always
+    depends_on:
+      - website
